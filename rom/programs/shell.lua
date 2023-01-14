@@ -617,8 +617,6 @@ else
     -- "shell"
     -- Print the header
     term.setBackgroundColor(bgColour)
-    term.setTextColour(promptColour)
-    print(os.version())
     term.setTextColour(textColour)
 
     -- Run the startup program

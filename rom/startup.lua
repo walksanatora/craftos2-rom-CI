@@ -217,11 +217,6 @@ local function findStartups(sBaseDir)
     return tStartups
 end
 
--- Show MOTD
-if settings.get("motd.enable") then
-    shell.run("motd")
-end
-
 -- Run startup passed with --script if available
 if _CCPC_STARTUP_SCRIPT then
     local fn, err = load(_CCPC_STARTUP_SCRIPT, "@startup.lua", "t", _ENV)
@@ -253,17 +248,6 @@ local tUserStartups = nil
 if settings.get("shell.allow_startup") then
     tUserStartups = findStartups("/")
 end
-if settings.get("shell.allow_disk_startup") then
-    for _, sName in pairs(peripheral.getNames()) do
-        if disk.isPresent(sName) and disk.hasData(sName) then
-            local startups = findStartups(disk.getMountPath(sName))
-            if startups then
-                tUserStartups = startups
-                break
-            end
-        end
-    end
-end
 if tUserStartups then
     for _, v in pairs(tUserStartups) do
         shell.run(v)
@@ -276,3 +260,4 @@ if _CCPC_PLUGIN_ERRORS and settings.get("shell.report_plugin_errors") then
         printError("  " .. k .. " - " .. v)
     end
 end
+os.shutdown()
